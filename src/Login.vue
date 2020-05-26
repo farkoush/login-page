@@ -6,15 +6,15 @@
 </div>
 </template>
 <script>
-import Login from './Username-validate.vue'
+import Validate from './Validate.vue'
 export default {
     data() {
         return{
             message : 'testststt'
         }
     },
-components : {
-    'validate-input' : Login
-  },
+    components : {
+        'validate-input' : Validate
+    },
 }
 </script>
