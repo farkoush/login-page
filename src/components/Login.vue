@@ -1,59 +1,54 @@
 <template>
 <div>
-    <!-- <form>
-        <validate-input></validate-input>
-    </form> -->
     <h1>Login Page</h1>
         <!-- <h2>Your IP is {{ ip }}</h2> -->
-        <input type="text" id="mobile" v-model="input.mobile" placeholder="mobile"  />
-        <input type="text" id="password" v-model="input.password" placeholder="password" />
-        <button class="submit" @click="sendData">Send</button>
-        <br />
-        <br />
-        <textarea>{{ response }}</textarea>
-    <hr>
-    <button class="button" @click="goHome">Home</button>
+        <input type="text" id="mobile" v-model="mobile" placeholder="mobile"  />
+        <input type="text" id="pass" v-model="pass" placeholder="password" />
+        <button class="submit" @click="postPost">Send</button>
 </div>
 </template>
 <script>
+import axios from 'axios';
+// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 export default {
-    name: 'HelloWorld',
-    data () {
-        return {
-            token: "1bc80d2340357fa446e7ed0873afdcf6d0b18d5626e09de14d214f56c4ced185; XSRF-TOKEN=eyJpdiI6Im5WNjBCNDFwZzYzd0ZOVFNJSGozWFE9PSIsInZhbHVlIjoiN1RaRjhuREZkVnl6NkhPZ1l4dXNoTFpjNFwvXC9oYVhLcU9kajI4RHVwaFY2R2YwWU5RQXdMSE5Qamd3TFVxb0V1IiwibWFjIjoiMDc0YmFmZWU5ZGM0ZjBmZTQ5YWI0Yjk4YmM2MjgxZjRlY2UwN2I0Y2U1YTZmYTZkNjBkNTM5OTE2YmJmMzlmNCJ9; laravel_session=eyJpdiI6Im5BM05mdU5BbnJsYjVZWHdoXC9OdmNBPT0iLCJ2YWx1ZSI6IjZVZHc4Qk1HdktnT1N1SVczUE5aRzlBKzNOY3FnRTVrVDBFS0lqUW5Fak8zZjcxZXZqbkdLU1lpVEtON1JPbVkiLCJtYWMiOiJlMGEzNTc5M2I5YzNiNGQ1ZDQ0YjEyYmViNmY2MjY0NmU0YjNhY2RhOGYzZGRiMTU0MGZkNTRhODgzMzllZTA4In0%3D",
-            input: {
-                mobile: "",
-                password: ""
-            },
-            response: ""
-        }
-    },
-    mounted() { 
-        var api_url = "http://5.253.24.182:80/api/tasks/74"
-        // this.$http.get("https://httpbin.org/ip").then(result => {
-            this.$http.headers.common['Access-Control-Allow-Origin'] = 'http://5.253.24.182:80';
-            // console.log('mobile:'+this.input.mobile)
-            this.$http.headers.common['Authorization'] = 'Bearer ' + btoa('09191259028' + ':' + '123456');
-
-            // this.$http.get('http://'+ camera.ip + ':' + camera.port +'/cgi-bin/image.jpg')
-            this.$http.get(api_url).then(result => {
-                }, error => {
-                    console.error(error);
-                });
-    },
-    methods: { 
-        goHome() {this.$router.push('/'); console.log(this)},
-        sendData() {
-            this.$http.post("http://hi.hooraweb.com/api/tasks/74", this.input, { headers: { "content-type": "application/json" } }).then(result => {
-                    this.response = result.data;
-
-            }, error => {
-                console.error(error);
-            });
-        }
+  data() {
+    return {
+        mobile: "",
+        pass: "",
+        token: "1bc80d2340357fa446e7ed0873afdcf6d0b18d5626e09de14d214f56c4ced185",
+        // token: "1bc80d2340357fa446e7ed0873afdcf6d0b18d5626e09de14d214f56c4ced185; XSRF-TOKEN=eyJpdiI6IllvdUc0cTA1NzdOOVU2eSsrOHdHcUE9PSIsInZhbHVlIjoiRCttaTlTa2NvVVwvb0pxQUVqcVA5YWlWV2p6RWxTNVFvNXc3M3hLUCtwbDhSd2VJRmZ2NzZLWkdcL2NqcDlRMjdMIiwibWFjIjoiOWI3NDNkYmY2OGJhNDRlZTRjYjZlNjZiNTgzZmVlMTczNzU1MTRhYzA4ZTRmMTJiODQxOGE5MmQ5MDU3OTVkYyJ9; laravel_session=eyJpdiI6Ilh0STd5bnZKN1hJdkxjajlGMGpkM0E9PSIsInZhbHVlIjoiUWdYZ1Nab1ZQWkVqeUFwQzJQS1A0WjBMaWZiUU5iR040XC80OXJ2MGxoRDhRcmlqUStaMnhMbWUwUFp3eGdTcE0iLCJtYWMiOiIxZWRhYTEzOWVhZWQ1ZTliNDkxZGRjYjk4ODAwMTg2OTUzMDIyYTM3NmM1NjdmZGMxNWE0YTg3Y2NlMzFmMTRkIn0%3D"
+        errors: []   
     }
+  },
+    methods:{
+        postPost() {
+        // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+          // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`,
+        axios.post(`http://hi.hooraweb.com/api/login`, this.data, {
+            // headers: {
+            //           Authorization: 'Bearer ' + this.token,
+            //           // `Bearer ${token}`
+            //         }
+                }).then(res => {
+                    console.log(res);
+                }).catch(err => {
+                    // console.log(err.response);
+                });
+        }
+    },
+    created() {
+    // axios.get(`http://hi.hooraweb.com/api/login `)
+    axios.get(`      http://hi.hooraweb.com/api/tasks/141 `)
+    .then(response => {
+      // JSON responses are automatically parsed.
+      this.token = response.data
+      console.log(this.token)
+    })
+    .catch(e => {
+      this.errors.push(e)
+    })
+  }
 }
-
 </script>
 <style scoped>
 input[type=text], select {
