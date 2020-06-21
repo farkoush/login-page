@@ -29,7 +29,11 @@ const router = new VueRouter({
 Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
-    token: "1bc80d2340357fa446e7ed0873afdcf6d0b18d5626e09de14d214f56c4ced185",
+    token: "",
+    inputs: {
+      mobile: "09191259028",
+      pass: "123456",
+    },
   },
 });
 

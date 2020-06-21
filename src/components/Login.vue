@@ -1,8 +1,8 @@
 <template>
 <div>
     <h1>Login Page</h1>
-        <input type="text" id="mobile" v-model="inputs.mobile" placeholder="mobile"  />
-        <input type="text" id="pass" v-model="inputs.pass" placeholder="password" />
+        <input type="text" id="mobile" v-model="$store.state.inputs.mobile" placeholder="mobile"  />
+        <input type="text" id="pass" v-model="$store.state.inputs.pass" placeholder="password" />
         <button class="submit" @click="postPost">Send</button>
 </div>
 </template>
@@ -15,23 +15,13 @@ const headers = {
     // `Bearer ${token}`
   }
 export default {
-  data() {
-    return {
-        inputs: {
-          mobile: "",
-          pass: "",
-        },
-        // token: "1bc80d2340357fa446e7ed0873afdcf6d0b18d5626e09de14d214f56c4ced185",
-        result: null,
-        errors: []
-    }
-  },
     methods:{
       postPost() {
           axios
-            .post(`http://hi.hooraweb.com/api/login`, this.inputs, {headers})
+            .post(`http://hi.hooraweb.com/api/login`, this.$store.state.inputs, {headers})
             .then(res => {
                 if (res.status === 200) {
+                  this.$store.state.token = res.data.token
                   this.$router.push('dashboard')
                 }
                 else {
@@ -41,11 +31,6 @@ export default {
             })
             .catch(err => console.log(err));
         },
-    },
-    mounted () {
-      axios
-        .get('http://hi.hooraweb.com/api/comments?id=74&type=task', {headers})
-        .then(response => (this.result = response.data))
     },
 }
 </script>
