@@ -1,53 +1,52 @@
 <template>
 <div>
     <h1>Login Page</h1>
-        <!-- <h2>Your IP is {{ ip }}</h2> -->
-        <input type="text" id="mobile" v-model="mobile" placeholder="mobile"  />
-        <input type="text" id="pass" v-model="pass" placeholder="password" />
+        <input type="text" id="mobile" v-model="inputs.mobile" placeholder="mobile"  />
+        <input type="text" id="pass" v-model="inputs.pass" placeholder="password" />
         <button class="submit" @click="postPost">Send</button>
 </div>
 </template>
 <script>
 import axios from 'axios';
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + this.token,
+    // `Bearer ${token}`
+  }
 export default {
   data() {
     return {
-        mobile: "",
-        pass: "",
-        token: "1bc80d2340357fa446e7ed0873afdcf6d0b18d5626e09de14d214f56c4ced185",
-        // token: "1bc80d2340357fa446e7ed0873afdcf6d0b18d5626e09de14d214f56c4ced185; XSRF-TOKEN=eyJpdiI6IllvdUc0cTA1NzdOOVU2eSsrOHdHcUE9PSIsInZhbHVlIjoiRCttaTlTa2NvVVwvb0pxQUVqcVA5YWlWV2p6RWxTNVFvNXc3M3hLUCtwbDhSd2VJRmZ2NzZLWkdcL2NqcDlRMjdMIiwibWFjIjoiOWI3NDNkYmY2OGJhNDRlZTRjYjZlNjZiNTgzZmVlMTczNzU1MTRhYzA4ZTRmMTJiODQxOGE5MmQ5MDU3OTVkYyJ9; laravel_session=eyJpdiI6Ilh0STd5bnZKN1hJdkxjajlGMGpkM0E9PSIsInZhbHVlIjoiUWdYZ1Nab1ZQWkVqeUFwQzJQS1A0WjBMaWZiUU5iR040XC80OXJ2MGxoRDhRcmlqUStaMnhMbWUwUFp3eGdTcE0iLCJtYWMiOiIxZWRhYTEzOWVhZWQ1ZTliNDkxZGRjYjk4ODAwMTg2OTUzMDIyYTM3NmM1NjdmZGMxNWE0YTg3Y2NlMzFmMTRkIn0%3D"
-        errors: []   
+        inputs: {
+          mobile: "",
+          pass: "",
+        },
+        // token: "1bc80d2340357fa446e7ed0873afdcf6d0b18d5626e09de14d214f56c4ced185",
+        result: null,
+        errors: []
     }
   },
     methods:{
-        postPost() {
-        // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-          // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`,
-        axios.post(`http://hi.hooraweb.com/api/login`, this.data, {
-            // headers: {
-            //           Authorization: 'Bearer ' + this.token,
-            //           // `Bearer ${token}`
-            //         }
-                }).then(res => {
-                    console.log(res);
-                }).catch(err => {
-                    // console.log(err.response);
-                });
-        }
+      postPost() {
+          axios
+            .post(`http://hi.hooraweb.com/api/login`, this.inputs, {headers})
+            .then(res => {
+                if (res.status === 200) {
+                  this.$router.push('dashboard')
+                }
+                else {
+                    // throw error and go to catch block
+                    throw new Error("Error Status");
+                }
+            })
+            .catch(err => console.log(err));
+        },
     },
-    created() {
-    // axios.get(`http://hi.hooraweb.com/api/login `)
-    axios.get(`      http://hi.hooraweb.com/api/tasks/141 `)
-    .then(response => {
-      // JSON responses are automatically parsed.
-      this.token = response.data
-      console.log(this.token)
-    })
-    .catch(e => {
-      this.errors.push(e)
-    })
-  }
+    mounted () {
+      axios
+        .get('http://hi.hooraweb.com/api/comments?id=74&type=task', {headers})
+        .then(response => (this.result = response.data))
+    },
 }
 </script>
 <style scoped>
