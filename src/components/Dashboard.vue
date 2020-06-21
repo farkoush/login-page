@@ -5,6 +5,7 @@
             <h3  v-for="task in tasks" :key="task.id">
               {{ task.title }}
             </h3>
+            <!-- <p>{{tasks[0].title}}</p> -->
           </div>
           <div v-else>please login</div>
           <!-- <p>your token is {{$store.state.token}}</p> -->
@@ -23,7 +24,7 @@
       //   return [1,2,3]
       // }
     },
-    mounted(){
+    created(){
       if (this.$store.state.token) {
         axios.get('http://hi.hooraweb.com/api/tasks', {
           headers: {
@@ -31,7 +32,8 @@
             'Authorization': 'Bearer ' + this.$store.state.token,
           }
         }).then(res => {
-          this.tasks = res.data.data[0]
+          console.log(res)
+          this.tasks = res.data.data
         })
       }
     }

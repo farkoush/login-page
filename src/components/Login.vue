@@ -9,16 +9,16 @@
 <script>
 import axios from 'axios';
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + this.token,
-    // `Bearer ${token}`
-  }
+// const headers = {
+//     'Content-Type': 'application/json',
+//     'Authorization': 'Bearer ' + this.token,
+//     // `Bearer ${token}`
+//   }
 export default {
     methods:{
       postPost() {
           axios
-            .post(`http://hi.hooraweb.com/api/login`, this.$store.state.inputs, {headers})
+            .post(`http://hi.hooraweb.com/api/login`, this.$store.state.inputs)
             .then(res => {
                 if (res.status === 200) {
                   this.$store.state.token = res.data.token
